@@ -1,0 +1,61 @@
+Page({
+    data: {
+      username: '',  
+
+    bindUsernameInput: function (e) {
+      this.setData({
+        username: e.detail.value,
+      });
+    },
+
+    bindPasswordInput: function (e) {
+      this.setData({
+        password: e.detail.value,
+      });
+    },
+  
+  
+    login: function () {
+        var that = this;
+        if(that.data.username.length ==0 || that.data.password.length ==0){
+          wx.showToast({  
+            icon: 'none',
+            title: 'the student name  and student ID cannot be empty',
+            duration: 2000,
+          })
+        }else {
+          wx.request({  
+            url: '你的请求地址',
+            method: "get",
+            header: { 'content-type': 'application/json' },
+            data: {
+              username: this.data.username, 
+              password: this.data.password,
+            },
+            success: function (res) { 
+              console.log("res.data"+res.data.code),
+              that.setData({
+                userId: res.data.data, 
+                code: res.data.code,    
+              })
+              console.log(res.data);
+              if(that.data.code == 200){ 
+                wx.showToast({
+                  title: 'onload succussfully',
+                })
+                wx.setStorageSync('userId', res.data.data); 
+                console.log(res.data.data);
+                
+                  wx.redirectTo({
+                    url: '/pages/seat/seat.wxml',  
+                  })
+              }else{
+                wx.showToast({
+                  icon: 'none',
+                  title: 'wrong',
+                })
+    
+
+
+    }
+  }})}}}})
